@@ -13,7 +13,7 @@ use App\Entity\Category;
 class ProgramController extends AbstractController
 {
      /**
-      * @Route("/index", name="index")
+      * @Route("/", name="index")
       * @return Response A response instance
       */
       
