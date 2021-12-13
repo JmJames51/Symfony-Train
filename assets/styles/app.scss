@@ -1,0 +1,14 @@
+$primary: darken(#428bca, 20%);
+$primaryFont: verdana;
+$titleFont: Round;
+
+
+
+@import "~bootstrap/scss/bootstrap";
+
+body{
+    background-color: #F76C6C;
+    color: $primary;
+    font-style: $primaryFont;
+
+}

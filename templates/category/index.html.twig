@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+{% for categories in category %}
+
+        <div>
+            <h2><a href='/category/{{ categories.name }}'>{{ categories.name }}</a></h2>
+        </div>
+{% endfor %}
+{% endblock %}
