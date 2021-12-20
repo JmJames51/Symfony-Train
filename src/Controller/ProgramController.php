@@ -24,9 +24,13 @@ class ProgramController extends AbstractController
             ->getRepository(Program::class)
             ->findAll();
 
+        $categories = $this->getDoctrine()
+            ->getRepository(Category::class)
+            ->findAll();
+
         return $this->render(
             'program/index.html.twig',
-            ['programs' => $programs]
+            ['programs' => $programs, 'categories' => $categories]
         );
     }
 
@@ -40,13 +44,18 @@ class ProgramController extends AbstractController
             ->getRepository(Program::class)
             ->findOneBy(['id' => $id]);
 
+        $categories = $this->getDoctrine()
+            ->getRepository(Category::class)
+            ->findAll();
+
+
         if (!$program) {
             throw $this->createNotFoundException(
                 'No program with id : ' . $id . ' found in program\'s table.'
             );
         }
         return $this->render('program/show.html.twig', [
-            'program' => $program,
+            'program' => $program, 'categories' => $categories
         ]);
     }
 }
