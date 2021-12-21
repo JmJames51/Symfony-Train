@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Program;
 use App\Entity\Category;
+use App\Service\Slugify;
 
 /**
  * @Route("/program", name="program_")
@@ -38,7 +39,7 @@ class ProgramController extends AbstractController
      * @Route("/show/{id<^[0-9]+$>}", name="show")
      * @return Response
      */
-    public function show(int $id): Response
+    public function show(int $id, Slugify $slugify): Response
     {
         $program = $this->getDoctrine()
             ->getRepository(Program::class)
@@ -55,7 +56,7 @@ class ProgramController extends AbstractController
             );
         }
         return $this->render('program/show.html.twig', [
-            'program' => $program, 'categories' => $categories
+            'program' => $program, 'categories' => $categories, 'slug' => $slugify,
         ]);
     }
 }
