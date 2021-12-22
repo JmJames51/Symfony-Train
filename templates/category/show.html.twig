@@ -5,12 +5,12 @@
 	<h1>{{category.name}}</h1>
 	{% for program in programs %}
 
-		<img src="{{program.poster}}">
+		<img src="{{ asset('upload/') ~ program.poster }}">
 		<p>#{{program.id}}</p>
 		<a href="{{ path("program_show", { id: program.id }) }}">{{program.title}}</a>
 		<br>
 		<p>{{program.synopsis}}</p>
 
 	{% endfor %}
-	
+
 {% endblock %}
