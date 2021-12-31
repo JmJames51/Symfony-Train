@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ProgramRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @Assert\EnableAutoMapping()
  * @ORM\Entity(repositoryClass=ProgramRepository::class)
+ * @UniqueEntity("title")
  */
 class Program
 {
@@ -20,11 +24,14 @@ class Program
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Un nom de titre est requis")
+     * @ORM\Column(name="title", type="string", length=255, unique=true)
      */
     private $title;
 
     /**
+     * @Assert\NotBlank(message="un synopsis est requis")
+     * @Assert\Length(max="255")
      * @ORM\Column(type="text")
      */
     private $synopsis;
@@ -35,11 +42,13 @@ class Program
     private $poster;
 
     /**
+     * @Assert\NotBlank(message="Ne me laisse pas tout vide voyons")
      * @ORM\Column(type="string", length=255)
      */
     private $country;
 
     /**
+     * @Assert\NotBlank(message="L'année de sortie est requis")
      * @ORM\Column(type="integer")
      */
     private $year;
