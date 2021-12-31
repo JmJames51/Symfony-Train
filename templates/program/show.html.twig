@@ -5,12 +5,15 @@
 
 {% block body %}
 	<div class="media">
-		<img class="align-self-start mr-3" src="{{ asset('upload/') ~ program.poster }} " alt="{{ program.title }} poster">
+		<img class="image" src="{{ asset('upload/') ~ program.poster }} " alt="{{ program.title }} poster">
 		<div class="media-body">
 			<h1 class="mt-0">{{ program.title }}</h1>
 			<p>{{ program.synopsis }}</p>
 			<p>Catégorie :{{ program.category.name }}</p>
-			{{dump(program)}}
+			{% for season in program.seasons %}
+				<a href="{{ path('program_show_season', { program_id: program.id, season_id: season.id}) }}">Saison : {{season.number}} </a>
+				<p>Synopsis : {{season.description}} </p>
+			{% endfor %}
 		</div>
 	</div>
 
