@@ -10,8 +10,6 @@ use App\Entity\Category;
 use App\Entity\Episode;
 use App\Entity\Season;
 use App\Form\ProgramType;
-use App\Repository\EpisodeRepository;
-use App\Repository\SeasonRepository;
 use App\Service\Slugify;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -113,9 +111,9 @@ class ProgramController extends AbstractController
     /**
      * @Route("/{program_id}/season/{season_id}", name="show_season")
      * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"program_id" : "id"}})
-     * @ParamConverter("seasons", class="App\Entity\Season", options={"mapping": {"season_id" : "id"}})
+     * @ParamConverter("season", class="App\Entity\Season", options={"mapping": {"season_id" : "id"}})
      */
-    public function showSeason(Program $program, Season $seasons): Response
+    public function showSeason(Program $program, Season $season): Response
     {
 
         $categories = $this->getDoctrine()
@@ -123,7 +121,7 @@ class ProgramController extends AbstractController
             ->findAll();
 
         return $this->render('program/season_show.html.twig', [
-            'seasons' => $seasons,
+            'season' => $season,
             'program' => $program,
             'categories' => $categories,
         ]);
@@ -132,17 +130,17 @@ class ProgramController extends AbstractController
     /**
      * @Route("/{program_id}/season/{season_id}/episode/{episode_id}", name="show_episode")
      * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"program_id": "id"}})
-     * @ParamConverter("seasons", class="App\Entity\Season", options={"mapping": {"season_id": "id"}})
+     * @ParamConverter("season", class="App\Entity\Season", options={"mapping": {"season_id": "id"}})
      * @ParamConverter("episodes", class="App\Entity\Episode", options={"mapping": {"episode_id": "id"}})
      */
-    public function showEpisode(Program $program, Season $seasons, Episode $episodes): Response
+    public function showEpisode(Program $program, Season $season, Episode $episodes): Response
     {
         $categories = $this->getDoctrine()
             ->getRepository(Category::class)
             ->findAll();
 
         return $this->render('program/episode_show.html.twig', [
-            'seasons' => $seasons,
+            'season' => $season,
             'program' => $program,
             'episodes' => $episodes,
             'categories' => $categories,

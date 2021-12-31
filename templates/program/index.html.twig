@@ -12,5 +12,10 @@
 			{# Lien vers la fiche de la série : #}
 			<a href="{{ path("program_show", { program_id: program.id }) }}">Voir la fiche</a>
 		</div>
+		<div>
+			<a href="{{ path("program_new")}}">
+				Ajouter une nouvelle série</a>
+		</div>
+
 	{% endfor %}
 {% endblock %}
