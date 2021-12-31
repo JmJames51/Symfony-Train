@@ -17,6 +17,9 @@
 						Categories
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li>
+							<a "dropdown-item" href="{{ path("category_index")}}">Toutes les categories</a>
+						</li>
 						{% for category in categories %}
 							<li>
 								<a class="dropdown-item" href="/category/{{ category.name }}">{{category.name}}</a>

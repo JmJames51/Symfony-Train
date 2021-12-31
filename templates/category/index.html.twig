@@ -6,9 +6,9 @@
 				<a href='/category/{{ categories.name }}'>{{ categories.name }}</a>
 			</h2>
 		</div>
-		<div>
-			<a href="{{ path("category_new")}}">
-				Ajouter une nouvelle categorie</a>
-		</div>
 	{% endfor %}
+	<div>
+		<a href="{{ path("category_new")}}">
+			Ajouter une nouvelle categorie</a>
+	</div>
 {% endblock %}
