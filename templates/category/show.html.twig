@@ -5,9 +5,9 @@
 	<h1>{{category.name}}</h1>
 	{% for program in programs %}
 
-		<img src="{{ asset('upload/') ~ program.poster }}">
+		<img class="image" src="{{ asset('upload/') ~ program.poster }}">
 		<p>#{{program.id}}</p>
-		<a href="{{ path("program_show", { id: program.id }) }}">{{program.title}}</a>
+		<a href="{{ path("program_show", { program_id: program.id }) }}">{{program.title}}</a>
 		<br>
 		<p>{{program.synopsis}}</p>
 
