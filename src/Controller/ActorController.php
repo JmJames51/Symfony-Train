@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Actor;
 use App\Entity\Category;
+use App\Repository\ActorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,8 +19,10 @@ class ActorController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(): Response
+    public function index(ActorRepository $actorRepository): Response
     {
+        $actors = $actorRepository->findAll();
+        
         $categories = $this->getDoctrine()
             ->getRepository(Category::class)
             ->findAll();
@@ -27,6 +30,7 @@ class ActorController extends AbstractController
         return $this->render('actor/index.html.twig', [
             'controller_name' => 'ActorController',
             'categories' => $categories,
+            'actors' => $actors,
         ]);
     }
 
