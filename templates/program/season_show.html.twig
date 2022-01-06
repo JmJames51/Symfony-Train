@@ -5,10 +5,10 @@
         <p>Voici tout les épisodes de la saison {{ season.number }} de {{ program.title }}</p>
 		{% for episode in season.episodes %}
 			<div class="media-body">
-				<a href="{{ path('program_show_episode', { program_id: program.id, season_id: season.id, episode_id: episode.id}) }}">Episode : {{episode.number}}</a>
+				<a href="{{ path('program_show_episode', { slug: program.slug, season_id: season.id, episode_id: episode.id}) }}">Episode : {{episode.number}}</a>
 				<p>Synopsis : {{episode.synopsis}}</p>
 			</div>
 		{% endfor %}
-			<a href="{{ path("program_show", { program_id: program.id }) }}">Retour sur la fiche de {{ program.title }}</a>
+			<a href="{{ path("program_show", { slug: program.slug }) }}">Retour sur la fiche de {{ program.title }}</a>
 	</div>
 {% endblock %}

@@ -6,6 +6,8 @@ class Slugify
 {
     public function generate(string $input): string
     {
-        return $input;
+        $modif = str_replace(' ', '-', $input);
+
+        return $modif;
     }
 }

@@ -11,7 +11,7 @@
 			<p>{{ program.synopsis }}</p>
 			<p>Catégorie :{{ program.category.name }}</p>
 			{% for seasons in program.season %}
-				<a href="{{ path('program_show_season', { program_id: program.id, season_id: seasons.id}) }}">Saison :
+				<a href="{{ path('program_show_season', { slug: program.slug, season_id: seasons.id}) }}">Saison :
 					{{seasons.number}}
 				</a>
 				<p>Synopsis :
@@ -21,7 +21,8 @@
 			<strong>Acteurs :</strong>
 			<ul>
 				{% for actor in program.actors %}
-					<li>{{ actor.name }}
+					<li>
+						<a href="{{ path("actor_show", { actor_id: actor.id }) }}">{{ actor.name }}</a>
 					</li>
 				{% else %}
 					<li>Aucun acteur pour cette série</li>
