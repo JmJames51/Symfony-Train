@@ -7,7 +7,7 @@
 	</h1>
 	{% for program in actor.programs %}
 		<li>
-			{{program.title}}
+			<a href="{{ path("program_show", { slug: program.slug }) }}">{{program.title}}</a>
 		</li>
 	{% else %}
 		<li>

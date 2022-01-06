@@ -10,6 +10,9 @@ use App\Entity\Category;
 use App\Entity\Episode;
 use App\Entity\Season;
 use App\Form\ProgramType;
+use App\Form\SearchProgramType;
+use App\Repository\ActorRepository;
+use App\Repository\ProgramRepository;
 use App\Service\Slugify;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,11 +29,17 @@ class ProgramController extends AbstractController
      * @return Response A response instance
      */
 
-    public function index(): Response
+    public function index(Request $request, ProgramRepository $programRepository): Response
     {
-        $programs = $this->getDoctrine()
-            ->getRepository(Program::class)
-            ->findAll();
+        $form = $this->createForm(SearchProgramType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $search = $form->getData()['search'];
+            $programs = $programRepository->findLikeName($search);
+        } else {
+            $programs = $programRepository->findAll();
+        }
 
         $categories = $this->getDoctrine()
             ->getRepository(Category::class)
@@ -39,6 +48,7 @@ class ProgramController extends AbstractController
         return $this->render('program/index.html.twig', [
             'programs' => $programs,
             'categories' => $categories,
+            'form' => $form->createView(),
         ]);
     }
     /**
@@ -46,7 +56,7 @@ class ProgramController extends AbstractController
      *
      * @Route("/new", name="new")
      */
-    public function new(Request $request, SluggerInterface $slugger): Response
+    public function new(Request $request, SluggerInterface $slugger, Slugify $slugify): Response
     {
         $program = new Program();
         $form = $this->createForm(ProgramType::class, $program);
@@ -72,6 +82,9 @@ class ProgramController extends AbstractController
                 $program->setPoster($newFileName);
             }
 
+            $slug = $slugify->generate($program->getTitle());
+            $program->setSlug($slug);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($program);
             $entityManager->flush();
@@ -90,8 +103,8 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{program_id}", name="show")
-     * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"program_id" : "id"}})
+     * @Route("/{slug}",name="show")
+     * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"slug" : "slug"}})
      * @return Response
      */
     public function show(Program $program, Slugify $slugify): Response
@@ -109,8 +122,8 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{program_id}/season/{season_id}", name="show_season")
-     * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"program_id" : "id"}})
+     * @Route("/{slug}/season/{season_id}", name="show_season")
+     * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"slug" : "slug"}})
      * @ParamConverter("season", class="App\Entity\Season", options={"mapping": {"season_id" : "id"}})
      */
     public function showSeason(Program $program, Season $season): Response
@@ -128,8 +141,8 @@ class ProgramController extends AbstractController
     }
 
     /**
-     * @Route("/{program_id}/season/{season_id}/episode/{episode_id}", name="show_episode")
-     * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"program_id": "id"}})
+     * @Route("/{slug}/season/{season_id}/episode/{episode_id}", name="show_episode")
+     * @ParamConverter("program", class="App\Entity\Program", options={"mapping": {"slug": "slug"}})
      * @ParamConverter("season", class="App\Entity\Season", options={"mapping": {"season_id": "id"}})
      * @ParamConverter("episodes", class="App\Entity\Episode", options={"mapping": {"episode_id": "id"}})
      */
