@@ -35,7 +35,7 @@ class Season
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Program::class, inversedBy="seasons")
+     * @ORM\ManyToOne(targetEntity=Program::class, inversedBy="season")
      * @ORM\JoinColumn(nullable=false)
      */
     private $program;
@@ -44,6 +44,11 @@ class Season
      * @ORM\OneToMany(targetEntity=Episode::class, mappedBy="season")
      */
     private $episodes;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
 
     public function __construct()
     {
@@ -129,6 +134,18 @@ class Season
                 $episode->setSeason(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
