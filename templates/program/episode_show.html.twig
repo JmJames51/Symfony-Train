@@ -7,8 +7,27 @@
 			<p>Catégorie : {{ program.category.name }}</p>
 			<p>Episodes : {{episodes.number}}, {{episodes.title}} </p>
 			<p>Synopsis : {{episodes.synopsis}}
+
+		</div>
+		<div class="comment-container">
+				<h1>Commentaires</h1>
+			{% for comment in comments %}
+			<div>
+				<p> {{ comment.rate }}/10 </p>
+				<p> {{ comment.comment }} </p>
+				<p> auteur : {{ comment.author.email }} </p>
+			</div>
+
+			{% endfor %}
+		</div>
+
+	{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {{ include('episode/_commentForm.html.twig') }}
+	{% else %}
+
+    <p><a href="{{ path('login') }}"> connecter-vous</a> afin de pouvoir ajouter des commentaires</p>
+
+{% endif %}
 		</div>
 			<a href="{{ path("program_show_season", { slug: program.slug, season_id: season.id }) }}">Retour sur la saison {{season.number}}</a>
-
-	</div>
 {% endblock %}
